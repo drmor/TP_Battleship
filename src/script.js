@@ -34,9 +34,11 @@ class GameBoard {
   }
   setShip(x, y, ship) {
     if (!this.direction) {
-      if (x >= this.height || y + ship.getLength() >= this.width) return false;
+      if (x >= this.height || y + ship.getLength() - 1 >= this.width)
+        return false;
     } else {
-      if (x + ship.getLength() >= this.height || y >= this.width) return false;
+      if (x + ship.getLength() - 1 >= this.height || y >= this.width)
+        return false;
     }
     if (x < 0 || y < 0) return false;
     if (!this.direction)
@@ -44,13 +46,13 @@ class GameBoard {
         startX: x,
         endX: x,
         startY: y,
-        endY: y + ship.getLength(),
+        endY: y + ship.getLength() - 1,
         ship: ship,
       });
     else
       this.allShips.push({
         startX: x,
-        endX: x + ship.getLength(),
+        endX: x + ship.getLength() - 1,
         startY: y,
         endY: y,
         ship: ship,

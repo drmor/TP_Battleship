@@ -39,7 +39,7 @@ describe('GameBoard Class', () => {
         startX: 0,
         endX: 0,
         startY: 0,
-        endY: 5,
+        endY: 4,
         ship: ship,
       },
     ]);
@@ -52,7 +52,7 @@ describe('GameBoard Class', () => {
         startX: 2,
         endX: 2,
         startY: 5,
-        endY: 9,
+        endY: 8,
         ship: ship,
       },
     ]);
@@ -69,21 +69,21 @@ describe('GameBoard Class', () => {
         startX: 7,
         endX: 7,
         startY: 3,
-        endY: 7,
+        endY: 6,
         ship: shipOne,
       },
       {
         startX: 2,
         endX: 2,
         startY: 5,
-        endY: 7,
+        endY: 6,
         ship: shipTwo,
       },
       {
         startX: 0,
         endX: 0,
         startY: 1,
-        endY: 6,
+        endY: 5,
         ship: shipThree,
       },
     ]);
@@ -114,14 +114,14 @@ describe('GameBoard Class', () => {
         startX: 7,
         endX: 7,
         startY: 3,
-        endY: 7,
+        endY: 6,
         ship: shipOne,
       },
       {
         startX: 0,
         endX: 0,
         startY: 7,
-        endY: 9,
+        endY: 8,
         ship: shipFour,
       },
     ]);
@@ -133,7 +133,7 @@ describe('GameBoard Class', () => {
     expect(board.getShips()).toEqual([
       {
         startX: 0,
-        endX: 5,
+        endX: 4,
         startY: 0,
         endY: 0,
         ship: ship,
