@@ -99,5 +99,28 @@ class GameBoard {
     else return false;
   }
 }
-
+class Player {
+  constructor(player) {
+    this.player = player;
+    this.board = new GameBoard();
+  }
+  randomMove(target) {
+    let count = 0;
+    const randomX = Math.floor(Math.random() * this.board.height);
+    const randomY = Math.floor(Math.random() * this.board.width);
+    for (let i = 0; i < target.allAttacks.length; i++) {
+      if (
+        target.allAttacks[i][0] == randomX &&
+        target.allAttacks[i][1] == randomY
+      ) {
+        count++;
+      }
+    }
+    if (count > 0) {
+      this.randomMove(target);
+    } else {
+      target.receiveAttack(randomX, randomY);
+    }
+  }
+}
 module.exports = { Ship, GameBoard };
