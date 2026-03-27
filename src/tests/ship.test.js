@@ -34,12 +34,28 @@ describe('GameBoard Class', () => {
   it('testing to set a proper ship coords 1', () => {
     const ship = new Ship(5);
     board.setShip(0, 0, ship);
-    expect(board.getShips()).toEqual([[0, 5]]);
+    expect(board.getShips()).toEqual([
+      {
+        startX: 0,
+        endX: 0,
+        startY: 0,
+        endY: 5,
+        ship: ship,
+      },
+    ]);
   });
   it('testing to set a proper ship coords 2', () => {
     const ship = new Ship(4);
     board.setShip(2, 5, ship);
-    expect(board.getShips()).toEqual([[2, 9]]);
+    expect(board.getShips()).toEqual([
+      {
+        startX: 2,
+        endX: 2,
+        startY: 5,
+        endY: 9,
+        ship: ship,
+      },
+    ]);
   });
   it('testing to set multiple ships with proper coords', () => {
     const shipOne = new Ship(4);
@@ -49,9 +65,27 @@ describe('GameBoard Class', () => {
     board.setShip(2, 5, shipTwo);
     board.setShip(0, 1, shipThree);
     expect(board.getShips()).toEqual([
-      [7, 7],
-      [2, 7],
-      [0, 6],
+      {
+        startX: 7,
+        endX: 7,
+        startY: 3,
+        endY: 7,
+        ship: shipOne,
+      },
+      {
+        startX: 2,
+        endX: 2,
+        startY: 5,
+        endY: 7,
+        ship: shipTwo,
+      },
+      {
+        startX: 0,
+        endX: 0,
+        startY: 1,
+        endY: 6,
+        ship: shipThree,
+      },
     ]);
   });
   it('testing to set wrong ship coords 1', () => {
@@ -66,7 +100,7 @@ describe('GameBoard Class', () => {
     expect(board.setShip(8, 8, ship)).toBe(false);
     expect(board.getShips()).toEqual([]);
   });
-  it('testing to set multiple ships with wrong coords', () => {
+  it('testing to set multiple ships with wrong and right coords', () => {
     const shipOne = new Ship(4);
     const shipTwo = new Ship(2);
     const shipThree = new Ship(5);
@@ -74,10 +108,36 @@ describe('GameBoard Class', () => {
     board.setShip(7, 3, shipOne);
     board.setShip(12, 2, shipTwo);
     board.setShip(10, 8, shipThree);
-    board.setShip(0, 8, shipFour);
+    board.setShip(0, 7, shipFour);
     expect(board.getShips()).toEqual([
-      [7, 7],
-      [0, 10],
+      {
+        startX: 7,
+        endX: 7,
+        startY: 3,
+        endY: 7,
+        ship: shipOne,
+      },
+      {
+        startX: 0,
+        endX: 0,
+        startY: 7,
+        endY: 9,
+        ship: shipFour,
+      },
+    ]);
+  });
+  it('testing change orientation', () => {
+    const ship = new Ship(5);
+    board.rotate();
+    board.setShip(0, 0, ship);
+    expect(board.getShips()).toEqual([
+      {
+        startX: 0,
+        endX: 5,
+        startY: 0,
+        endY: 0,
+        ship: ship,
+      },
     ]);
   });
 });
