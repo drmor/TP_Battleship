@@ -31,6 +31,6 @@
     "webpack-dev-server": "^5.2.3"
   },
   "dependencies": {
-    "jest": "^30.3.0"
+    "jest": "^25.0.0"
   }
 }
