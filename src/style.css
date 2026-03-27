@@ -1,0 +1,11 @@
+@font-face{
+    font-family: Raleway;
+    src: url(../src/additional/Raleway-VariableFont_wght.ttf);
+}
+@font-face{
+    font-family: WorkSans;
+    src: url(../src/additional/WorkSans-VariableFont_wght.ttf);
+}
+body{
+    margin: 0;
+}
