@@ -181,5 +181,23 @@ describe('GameBoard Class', () => {
         [9, 9],
       ]);
     });
+    it('testing if all ships isSunk 1', () => {
+      const ship2 = new Ship(3);
+      board.setShip(3, 3, ship2);
+      board.receiveAttack(0, 1);
+      board.receiveAttack(0, 0);
+      board.receiveAttack(3, 3);
+      expect(board.isGameEnded()).toBe(false);
+    });
+    it('testing if all ships isSunk 2', () => {
+      const ship2 = new Ship(3);
+      board.setShip(3, 3, ship2);
+      board.receiveAttack(0, 1);
+      board.receiveAttack(0, 0);
+      board.receiveAttack(3, 3);
+      board.receiveAttack(3, 4);
+      board.receiveAttack(3, 5);
+      expect(board.isGameEnded()).toBe(true);
+    });
   });
 });

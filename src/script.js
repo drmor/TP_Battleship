@@ -89,6 +89,15 @@ class GameBoard {
     }
     return false;
   }
+  isGameEnded() {
+    if (this.allShips.length == 0) return false;
+    let sunkedShips = 0;
+    for (let i = 0; i < this.allShips.length; i++) {
+      if (this.allShips[i].ship.isSunk()) sunkedShips++;
+    }
+    if (sunkedShips == this.allShips.length) return true;
+    else return false;
+  }
 }
 
 module.exports = { Ship, GameBoard };
