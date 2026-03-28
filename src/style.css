@@ -1,11 +1,38 @@
-@font-face{
-    font-family: Raleway;
-    src: url(../src/additional/Raleway-VariableFont_wght.ttf);
+@font-face {
+  font-family: Raleway;
+  src: url(../src/additional/Raleway-VariableFont_wght.ttf);
 }
-@font-face{
-    font-family: WorkSans;
-    src: url(../src/additional/WorkSans-VariableFont_wght.ttf);
+@font-face {
+  font-family: WorkSans;
+  src: url(../src/additional/WorkSans-VariableFont_wght.ttf);
 }
-body{
-    margin: 0;
+body {
+  margin: 0;
+  background-image: url(./additional/BattleShipBG.jpg);
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+.header {
+  color: white;
+  text-align: center;
+  margin-top: 5%;
+  font-size: 2.5rem;
+  font-family: WorkSans;
+  letter-spacing: 10px;
+}
+.startGame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.playBtn {
+  font-size: 2.5rem;
+  color: green;
+  background-color: rgb(212, 212, 212, 0.7);
+  border: 3px solid white;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
 }
