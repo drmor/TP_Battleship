@@ -8,8 +8,9 @@ const p2Divs = [];
 const player = new Player('p1');
 const computer = new Player('computer');
 const ship = new Ship(3);
+const ship1 = new Ship(3);
 computer.board.setShip(0, 0, ship);
-player.board.setShip(5, 5, ship);
+player.board.setShip(5, 5, ship1);
 playBtn.addEventListener('click', () => {
   console.log(player.board.getShips());
   console.log(computer.board.getShips());
@@ -30,6 +31,7 @@ const displayBoards = (container, arr, target) => {
     }
   }
   displayShips(target, arr);
+  attack(target, arr);
 };
 const displayShips = (target, arr) => {
   for (let i = 0; i < target.board.allShips.length; i++) {
@@ -44,14 +46,27 @@ const displayShips = (target, arr) => {
     }
   }
 };
-const displayShots = () => {};
-function attack(arr) {
+const displayShots = (target, arr) => {
+  for (let i = 0; i < target.board.allAttacks.length; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j].dataset.x == target.board.allAttacks[i][0] && arr[j].dataset.y == target.board.allAttacks[i][1]) {
+        if (target.board.isShipExist(arr[j].dataset.x, arr[j].dataset.y)) {
+          arr[j].style.backgroundColor = 'red';
+        } else arr[j].innerHTML = 'X';
+      }
+    }
+  }
+};
+
+function attack(target, arr) {
   arr.forEach((div) => {
     div.addEventListener('click', (e) => {
-      console.log(e.target.dataset);
+      target.board.receiveAttack(e.target.dataset.x, e.target.dataset.y);
+      displayShots(target, arr);
+      console.log(target.board.allShips);
     });
   });
 }
-attack(p1Divs);
+
 displayBoards(p1container, p1Divs, player);
 displayBoards(p2container, p2Divs, computer);
