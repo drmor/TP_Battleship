@@ -67,15 +67,25 @@ class GameBoard {
       });
   }
   receiveAttack(x, y) {
-    let target = this.exist(x, y);
-    this.allAttacks.push([x, y]);
+    let target = this.isShipExist(x, y);
+    if (!this.duplicate(x, y)) {
+      this.allAttacks.push([x, y]);
+    } else return;
     if (!target) {
       this.allMisses.push([x, y]);
     } else {
       target.hit();
     }
   }
-  exist(x, y) {
+  duplicate(x, y) {
+    for (let i = 0; i < this.allAttacks.length; i++) {
+      if (x == this.allAttacks[i][0] && y == this.allAttacks[i][1]) {
+        return true;
+      }
+    }
+    return false;
+  }
+  isShipExist(x, y) {
     for (let i = 0; i < this.allShips.length; i++) {
       let xIsFound = false;
       let yIsFound = false;

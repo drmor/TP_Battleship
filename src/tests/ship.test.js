@@ -199,5 +199,24 @@ describe('GameBoard Class', () => {
       board.receiveAttack(3, 5);
       expect(board.isGameEnded()).toBe(true);
     });
+    it('testing attack on the same spot', () => {
+      board.receiveAttack(0, 1);
+      board.receiveAttack(0, 0);
+      board.receiveAttack(7, 5);
+      board.receiveAttack(3, 3);
+      board.receiveAttack(7, 5);
+      board.receiveAttack(3, 3);
+      expect(board.getAttacksArr()).toEqual([
+        [0, 1],
+        [0, 0],
+        [7, 5],
+        [3, 3],
+      ]);
+      expect(board.isGameEnded()).toBe(true);
+      expect(board.getMissesArr()).toEqual([
+        [7, 5],
+        [3, 3],
+      ]);
+    });
   });
 });
