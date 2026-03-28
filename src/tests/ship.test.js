@@ -1,4 +1,4 @@
-const { Ship, GameBoard } = require('../script');
+const { Ship, GameBoard } = require('../AllClasses');
 
 describe('Ship Class', () => {
   let ship;
