@@ -20,9 +20,15 @@ const destroyer = new Ship(2);
 ships.push(carrier, battleship, cruiser, submarine, destroyer);
 const randomSpawn = () => {
   for (let i = 0; i < ships.length; i++) {
-    let x = Math.floor(Math.random() * 10);
-    let y = Math.floor(Math.random() * 10);
-    computer.board.setShip(x, y, ships[i]);
+    let x, y;
+    const randomCoords = () => {
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+    };
+    randomCoords();
+    while (!computer.board.setShip(x, y, ships[i])) {
+      randomCoords();
+    }
     console.log(computer.board.allShips);
   }
 };

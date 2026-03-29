@@ -41,11 +41,12 @@ class GameBoard {
   }
   setShip(x, y, ship) {
     if (!this.direction) {
-      if (x >= this.height || y + ship.getLength() - 1 >= this.width) return false;
+      if (x >= this.height || y + ship.getLength() - 1 >= this.width) return;
     } else {
-      if (x + ship.getLength() - 1 >= this.height || y >= this.width) return false;
+      if (x + ship.getLength() - 1 >= this.height || y >= this.width) return;
     }
     if (x < 0 || y < 0) return false;
+    if (this.isShipExist(x, y)) return;
     if (!this.direction)
       this.allShips.push({
         startX: x,
@@ -62,6 +63,7 @@ class GameBoard {
         endY: y,
         ship: ship,
       });
+    return true;
   }
   receiveAttack(x, y) {
     let target = this.isShipExist(x, y);
