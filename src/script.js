@@ -6,13 +6,28 @@ const p2container = document.querySelector('.p2Board');
 const turnDisplay = document.querySelector('.turn');
 const p1Divs = [];
 const p2Divs = [];
+const ships = [];
 const player = new Player('p1');
 const computer = new Player('computer');
 let turn = player;
-const ship = new Ship(3);
-const ship1 = new Ship(3);
-computer.board.setShip(0, 0, ship);
-player.board.setShip(5, 5, ship1);
+
+// all standart ships
+const carrier = new Ship(5);
+const battleship = new Ship(4);
+const cruiser = new Ship(3);
+const submarine = new Ship(3);
+const destroyer = new Ship(2);
+ships.push(carrier, battleship, cruiser, submarine, destroyer);
+const randomSpawn = () => {
+  for (let i = 0; i < ships.length; i++) {
+    let x = Math.floor(Math.random() * 10);
+    let y = Math.floor(Math.random() * 10);
+    computer.board.setShip(x, y, ships[i]);
+    console.log(computer.board.allShips);
+  }
+};
+randomSpawn();
+player.board.setShip(5, 5, destroyer);
 playBtn.addEventListener('click', () => {
   console.log(player.board.getShips());
   console.log(computer.board.getShips());
