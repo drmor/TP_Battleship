@@ -25,14 +25,16 @@ const randomSpawn = () => {
       x = Math.floor(Math.random() * 10);
       y = Math.floor(Math.random() * 10);
     };
+    computer.board.rotate();
     randomCoords();
     while (!computer.board.setShip(x, y, ships[i])) {
       randomCoords();
     }
-    console.log(computer.board.allShips);
   }
 };
 randomSpawn();
+console.log(player.board.allShips);
+console.log(computer.board.allShips);
 player.board.setShip(5, 5, destroyer);
 playBtn.addEventListener('click', () => {
   console.log(player.board.getShips());
