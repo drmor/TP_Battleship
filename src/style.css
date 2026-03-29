@@ -51,10 +51,14 @@ body {
 .p1Board {
   display: grid;
   width: 500px;
+  pointer-events: none;
 }
 .p2Board {
   display: grid;
   width: 500px;
+}
+.disabled {
+  pointer-events: none;
 }
 .block {
   display: flex;

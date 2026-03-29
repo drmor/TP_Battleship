@@ -63,15 +63,28 @@ const attack = (target, arr) => {
   arr.forEach((div) => {
     div.addEventListener('click', (e) => {
       target.board.receiveAttack(e.target.dataset.x, e.target.dataset.y);
-      displayShots(target, arr);
       changePlayersTurn();
-      i = 0; // reset displayTurn
-      turnDisplay.textContent = ''; // reset displayTurn
+      resetDisplayTurn();
       displayTurn();
+      p2container.classList.toggle('disabled');
+      setTimeout(computerAttack, 1700);
+      displayShots(target, arr);
     });
   });
 };
 
+const resetDisplayTurn = () => {
+  i = 0; // reset displayTurn
+  turnDisplay.textContent = ''; // reset displayTurn
+};
+const computerAttack = () => {
+  changePlayersTurn();
+  resetDisplayTurn();
+  displayTurn();
+  computer.randomMove(player);
+  p2container.classList.toggle('disabled');
+  displayShots(player, p1Divs);
+};
 const changePlayersTurn = () => {
   turn = turn === player ? computer : player;
 };

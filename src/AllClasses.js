@@ -41,11 +41,9 @@ class GameBoard {
   }
   setShip(x, y, ship) {
     if (!this.direction) {
-      if (x >= this.height || y + ship.getLength() - 1 >= this.width)
-        return false;
+      if (x >= this.height || y + ship.getLength() - 1 >= this.width) return false;
     } else {
-      if (x + ship.getLength() - 1 >= this.height || y >= this.width)
-        return false;
+      if (x + ship.getLength() - 1 >= this.height || y >= this.width) return false;
     }
     if (x < 0 || y < 0) return false;
     if (!this.direction)
@@ -117,18 +115,15 @@ class Player {
     let count = 0;
     const randomX = Math.floor(Math.random() * this.board.height);
     const randomY = Math.floor(Math.random() * this.board.width);
-    for (let i = 0; i < target.allAttacks.length; i++) {
-      if (
-        target.allAttacks[i][0] == randomX &&
-        target.allAttacks[i][1] == randomY
-      ) {
+    for (let i = 0; i < target.board.allAttacks.length; i++) {
+      if (target.board.allAttacks[i][0] == randomX && target.board.allAttacks[i][1] == randomY) {
         count++;
       }
     }
     if (count > 0) {
       this.randomMove(target);
     } else {
-      target.receiveAttack(randomX, randomY);
+      target.board.receiveAttack(randomX, randomY);
     }
   }
 }
