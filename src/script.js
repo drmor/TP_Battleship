@@ -3,10 +3,12 @@ const { Ship, GameBoard, Player } = require('./AllClasses');
 const playBtn = document.querySelector('.playBtn');
 const p1container = document.querySelector('.p1Board');
 const p2container = document.querySelector('.p2Board');
+const turnDisplay = document.querySelector('.turn');
 const p1Divs = [];
 const p2Divs = [];
 const player = new Player('p1');
 const computer = new Player('computer');
+let turn = player;
 const ship = new Ship(3);
 const ship1 = new Ship(3);
 computer.board.setShip(0, 0, ship);
@@ -57,16 +59,33 @@ const displayShots = (target, arr) => {
     }
   }
 };
-
-function attack(target, arr) {
+const attack = (target, arr) => {
   arr.forEach((div) => {
     div.addEventListener('click', (e) => {
       target.board.receiveAttack(e.target.dataset.x, e.target.dataset.y);
       displayShots(target, arr);
-      console.log(target.board.allShips);
+      changePlayersTurn();
+      i = 0; // reset displayTurn
+      turnDisplay.textContent = ''; // reset displayTurn
+      displayTurn();
     });
   });
-}
+};
 
+const changePlayersTurn = () => {
+  turn = turn === player ? computer : player;
+};
+
+let i = 0;
+const getTurnText = () => `${turn.player} turn`;
+const displayTurn = () => {
+  let text = getTurnText();
+  if (i < text.length) {
+    turnDisplay.textContent += text[i];
+    i++;
+    setTimeout(displayTurn, 30);
+  }
+};
+displayTurn();
 displayBoards(p1container, p1Divs, player);
 displayBoards(p2container, p2Divs, computer);
