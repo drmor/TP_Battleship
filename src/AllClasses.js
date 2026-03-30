@@ -46,11 +46,15 @@ class GameBoard {
       if (x + ship.getLength() - 1 >= this.height || y >= this.width) return;
     }
     if (x < 0 || y < 0) return false;
-    for (let i = 0; i < ship.getLength(); i++) {
+    for (let i = -1; i <= ship.getLength(); i++) {
       if (!this.direction) {
-        if (this.isShipExist(x, y + i)) return;
+        for (let j = -1; j <= 1; j++) {
+          if (this.isShipExist(x + j, y + i)) return;
+        }
       } else {
-        if (this.isShipExist(x + i, y)) return;
+        for (let a = -1; a <= 1; a++) {
+          if (this.isShipExist(x + i, y + a)) return;
+        }
       }
     }
     if (!this.direction)
@@ -95,10 +99,10 @@ class GameBoard {
       let xIsFound = false;
       let yIsFound = false;
       for (let j = this.allShips[i].startX; j <= this.allShips[i].endX; j++) {
-        if (x == j || x + 1 == j || x - 1 == j) xIsFound = true;
+        if (x == j) xIsFound = true;
       }
       for (let t = this.allShips[i].startY; t <= this.allShips[i].endY; t++) {
-        if (y == t || y + 1 == t || y - 1 == t) yIsFound = true;
+        if (y == t) yIsFound = true;
       }
       if (xIsFound && yIsFound) return this.allShips[i].ship;
     }

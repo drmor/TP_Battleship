@@ -33,8 +33,6 @@ const randomSpawn = () => {
   }
 };
 randomSpawn();
-console.log(player.board.allShips);
-console.log(computer.board.allShips);
 player.board.setShip(5, 5, destroyer);
 playBtn.addEventListener('click', () => {
   console.log(player.board.getShips());
@@ -70,6 +68,7 @@ const displayShips = (target, arr) => {
       }
     }
   }
+  console.log(computer.board.allShips);
 };
 const displayShots = (target, arr) => {
   for (let i = 0; i < target.board.allAttacks.length; i++) {
@@ -85,13 +84,17 @@ const displayShots = (target, arr) => {
 const attack = (target, arr) => {
   arr.forEach((div) => {
     div.addEventListener('click', (e) => {
+      div.classList.add('disabled');
       target.board.receiveAttack(e.target.dataset.x, e.target.dataset.y);
       changePlayersTurn();
       resetDisplayTurn();
       displayTurn();
       p2container.classList.toggle('disabled');
-      setTimeout(computerAttack, 1700);
+      setTimeout(computerAttack, 1); //700
       displayShots(target, arr);
+      if (target.board.isGameEnded()) {
+        console.log('end');
+      }
     });
   });
 };
@@ -122,6 +125,7 @@ const displayTurn = () => {
     setTimeout(displayTurn, 30);
   }
 };
+
 displayTurn();
 displayBoards(p1container, p1Divs, player);
 displayBoards(p2container, p2Divs, computer);
