@@ -1,5 +1,7 @@
 import './style.css';
-const { Ship, GameBoard, Player } = require('./AllClasses');
+const { Ship, Player } = require('./AllClasses');
+
+// UI DOM elements
 const playBtn = document.querySelector('.playBtn');
 const p1container = document.querySelector('.p1Board');
 const p2container = document.querySelector('.p2Board');
@@ -9,17 +11,32 @@ const heroDiv = document.querySelector('.hero');
 const restartBtn = document.getElementById('restart');
 const winner = document.getElementById('winner');
 const choiceDiv = document.querySelector('.ships');
-const p1Divs = [];
-const p2Divs = [];
-const ships = [];
-const shipsCopy = [];
+
+// Game arrays
+const p1Divs = []; // player board grid
+const p2Divs = []; // computer board grid
+const ships = []; // computer ships
+const shipsCopy = []; // player ships
+
+// Game objects
 let player = new Player('p1');
 let computer = new Player('computer');
 let turn = player;
+let draggedShip = null;
 
-// all standart ships
+// Initializing all ships
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
 shipsCopy.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
+
+// Play button for starting game
+playBtn.addEventListener('click', () => {
+  playBtn.style.display = 'none';
+  choiceDiv.style.display = 'none';
+  displayBoards(p2container, p2Divs, computer);
+  displayTurn();
+});
+
+// Spawning ships in random coords
 const randomSpawn = () => {
   for (let i = 0; i < ships.length; i++) {
     let x, y;
@@ -34,16 +51,8 @@ const randomSpawn = () => {
     }
   }
 };
-randomSpawn();
-playBtn.addEventListener('click', () => {
-  console.log(player.board.getShips());
-  console.log(computer.board.getShips());
-  playBtn.style.display = 'none';
-  choiceDiv.style.display = 'none';
-  displayBoards(p2container, p2Divs, computer);
-});
-let draggedShip = null;
 
+// Displaying ships to place on the board before the game
 const displayShipsChoice = () => {
   for (let i = 0; i < shipsCopy.length; i++) {
     let currShip = document.createElement('div');
@@ -63,8 +72,8 @@ const displayShipsChoice = () => {
     choiceDiv.appendChild(currShip);
   }
 };
-displayShipsChoice();
 
+// Display player board
 const displayBoards = (container, arr, target) => {
   container.style.gridTemplateColumns = `repeat(10, 1fr)`;
   container.style.gridTemplateRows = `repeat(10, 1fr)`;
@@ -100,6 +109,8 @@ const displayBoards = (container, arr, target) => {
   displayShips(target, arr);
   attack(target, arr);
 };
+
+// Display ships on the board
 const displayShips = (target, arr) => {
   for (let i = 0; i < target.board.allShips.length; i++) {
     for (let x = target.board.allShips[i].startX; x <= target.board.allShips[i].endX; x++) {
@@ -113,6 +124,8 @@ const displayShips = (target, arr) => {
     }
   }
 };
+
+// Display shots on the board
 const displayShots = (target, arr) => {
   for (let i = 0; i < target.board.allAttacks.length; i++) {
     for (let j = 0; j < arr.length; j++) {
@@ -124,6 +137,8 @@ const displayShots = (target, arr) => {
     }
   }
 };
+
+// Attack function for player that recieve attack and also disable attacked block, so as not to shoot twice, changes turn, and refreshes DOM
 const attack = (target, arr) => {
   arr.forEach((div) => {
     div.addEventListener('click', (e) => {
@@ -133,17 +148,20 @@ const attack = (target, arr) => {
       resetDisplayTurn();
       displayTurn();
       p2container.classList.toggle('disabled');
-      setTimeout(computerAttack, 1); //700
+      setTimeout(computerAttack, 1);
       displayShots(target, arr);
       gameEnd();
     });
   });
 };
 
+// Helper function to reset values for displayTurn()
 const resetDisplayTurn = () => {
-  i = 0; // reset displayTurn
-  turnDisplay.textContent = ''; // reset displayTurn
+  i = 0;
+  turnDisplay.textContent = '';
 };
+
+// Attack function for computer that call player class function for attack, changes turn, and refreshes DOM
 const computerAttack = () => {
   changePlayersTurn();
   resetDisplayTurn();
@@ -153,10 +171,13 @@ const computerAttack = () => {
   displayShots(player, p1Divs);
   gameEnd();
 };
+
+// Changing turn variable
 const changePlayersTurn = () => {
   turn = turn === player ? computer : player;
 };
 
+// Geting whose turn and displaying it
 let i = 0;
 const getTurnText = () => `${turn.player} turn`;
 const displayTurn = () => {
@@ -164,9 +185,11 @@ const displayTurn = () => {
   if (i < text.length) {
     turnDisplay.textContent += text[i];
     i++;
-    setTimeout(displayTurn, 30);
+    setTimeout(displayTurn, 40);
   }
 };
+
+// Checking if game is end and displaying popup window
 const gameEnd = () => {
   if (computer.board.isGameEnded()) {
     heroDiv.style.pointerEvents = 'none';
@@ -180,6 +203,8 @@ const gameEnd = () => {
     endPopup.style.display = 'flex';
   }
 };
+
+// Restart game button
 restartBtn.addEventListener('click', () => {
   player = new Player('p1');
   computer = new Player('computer');
@@ -196,5 +221,8 @@ restartBtn.addEventListener('click', () => {
   displayBoards(p1container, p1Divs, player);
   choiceDiv.style.display = 'flex';
 });
-displayTurn();
+
+// Displaying player board, ships choice, spawning computer ships by default
 displayBoards(p1container, p1Divs, player);
+displayShipsChoice();
+randomSpawn();
