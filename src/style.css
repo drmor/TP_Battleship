@@ -80,3 +80,20 @@ body {
   grid-template-columns: 1fr 1fr;
   place-items: center;
 }
+.endPopup {
+  position: absolute;
+  width: 500px;
+  height: 200px;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 3px solid gray;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.endPopup > h1 {
+  margin: 0;
+}

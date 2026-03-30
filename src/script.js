@@ -4,6 +4,7 @@ const playBtn = document.querySelector('.playBtn');
 const p1container = document.querySelector('.p1Board');
 const p2container = document.querySelector('.p2Board');
 const turnDisplay = document.querySelector('.turn');
+const endPopup = document.querySelector('.endPopup');
 const p1Divs = [];
 const p2Divs = [];
 const ships = [];
@@ -92,9 +93,10 @@ const attack = (target, arr) => {
       p2container.classList.toggle('disabled');
       setTimeout(computerAttack, 1); //700
       displayShots(target, arr);
-      if (target.board.isGameEnded()) {
-        console.log('end');
-      }
+      gameEnd();
+      console.log(player.board.allShips[0].ship);
+      console.log(player.board.allAttacks);
+      console.log(player.board.allShips[0].ship);
     });
   });
 };
@@ -110,6 +112,7 @@ const computerAttack = () => {
   computer.randomMove(player);
   p2container.classList.toggle('disabled');
   displayShots(player, p1Divs);
+  gameEnd();
 };
 const changePlayersTurn = () => {
   turn = turn === player ? computer : player;
@@ -125,7 +128,13 @@ const displayTurn = () => {
     setTimeout(displayTurn, 30);
   }
 };
-
+const gameEnd = () => {
+  if (computer.board.isGameEnded()) {
+    endPopup.style.display = 'flex';
+  } else if (player.board.isGameEnded()) {
+    endPopup.style.display = 'flex';
+  }
+};
 displayTurn();
 displayBoards(p1container, p1Divs, player);
 displayBoards(p2container, p2Divs, computer);
