@@ -8,15 +8,18 @@ const endPopup = document.querySelector('.endPopup');
 const heroDiv = document.querySelector('.hero');
 const restartBtn = document.getElementById('restart');
 const winner = document.getElementById('winner');
+const choiceDiv = document.querySelector('.ships');
 const p1Divs = [];
 const p2Divs = [];
 const ships = [];
+const shipsCopy = [];
 let player = new Player('p1');
 let computer = new Player('computer');
 let turn = player;
 
 // all standart ships
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
+shipsCopy.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
 const randomSpawn = () => {
   for (let i = 0; i < ships.length; i++) {
     let x, y;
@@ -32,13 +35,36 @@ const randomSpawn = () => {
   }
 };
 randomSpawn();
-player.board.setShip(5, 5, new Ship(2));
 playBtn.addEventListener('click', () => {
   console.log(player.board.getShips());
   console.log(computer.board.getShips());
-  //   playBtn.style.display = 'none';
-  //   displayBoards();
+  playBtn.style.display = 'none';
+  choiceDiv.style.display = 'none';
+  displayBoards(p2container, p2Divs, computer);
 });
+let draggedShip = null;
+
+const displayShipsChoice = () => {
+  for (let i = 0; i < shipsCopy.length; i++) {
+    let currShip = document.createElement('div');
+    currShip.classList.add('ship');
+    currShip.id = 'drag-item';
+    currShip.draggable = true;
+    currShip.dataset.length = shipsCopy[i].length;
+    for (let j = 0; j < shipsCopy[i].length; j++) {
+      const shipPart = document.createElement('div');
+      shipPart.classList.add('shipPart');
+      currShip.appendChild(shipPart);
+    }
+    currShip.addEventListener('dragstart', (event) => {
+      draggedShip = shipsCopy[i];
+      event.dataTransfer.setData('text/plain', event.target.dataset.length);
+    });
+    choiceDiv.appendChild(currShip);
+  }
+};
+displayShipsChoice();
+
 const displayBoards = (container, arr, target) => {
   container.style.gridTemplateColumns = `repeat(10, 1fr)`;
   container.style.gridTemplateRows = `repeat(10, 1fr)`;
@@ -46,6 +72,25 @@ const displayBoards = (container, arr, target) => {
     for (let j = 0; j < 10; j++) {
       const cellDiv = document.createElement('div');
       cellDiv.classList.add('block');
+      cellDiv.addEventListener('dragover', (event) => {
+        event.preventDefault();
+      });
+      cellDiv.addEventListener('drop', (event) => {
+        event.preventDefault();
+        for (let a = 0; a < player.board.allShips.length; a++) {
+          if (player.board.allShips[a].ship === draggedShip) {
+            player.board.allShips.splice(a, 1);
+          }
+        }
+        player.board.setShip(parseInt(cellDiv.dataset.x), parseInt(cellDiv.dataset.y), draggedShip);
+        for (let d = 0; d < 100; d++) {
+          p1Divs[d].style.backgroundColor = '';
+        }
+        if (player.board.allShips.length === 5) {
+          playBtn.style.display = 'flex';
+        }
+        displayShips(player, p1Divs);
+      });
       cellDiv.dataset.x = i;
       cellDiv.dataset.y = j;
       container.appendChild(cellDiv);
@@ -149,11 +194,7 @@ restartBtn.addEventListener('click', () => {
   ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
   randomSpawn();
   displayBoards(p1container, p1Divs, player);
-  displayBoards(p2container, p2Divs, computer);
-});
-document.body.addEventListener('click', (e) => {
-  console.log(e);
+  choiceDiv.style.display = 'flex';
 });
 displayTurn();
 displayBoards(p1container, p1Divs, player);
-displayBoards(p2container, p2Divs, computer);

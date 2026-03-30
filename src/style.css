@@ -25,14 +25,11 @@ body {
   font-family: WorkSans;
   letter-spacing: 10px;
 }
-.startGame {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .playBtn {
   display: none;
+  position: absolute;
+  top: 80%;
+  left: 65%;
   font-size: 2.5rem;
   color: green;
   background-color: rgb(212, 212, 212, 0.7);
@@ -53,7 +50,6 @@ body {
 .p1Board {
   display: grid;
   width: 500px;
-  pointer-events: none;
 }
 .p2Board {
   display: grid;
@@ -98,4 +94,27 @@ body {
 }
 .endPopup > h1 {
   margin: 0;
+}
+.ships {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  top: 65%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.ship {
+  margin-left: 1rem;
+  display: flex;
+}
+.shipPart {
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  border: 3px solid gray;
+  border-radius: 10px;
 }
