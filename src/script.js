@@ -11,6 +11,7 @@ const heroDiv = document.querySelector('.hero');
 const restartBtn = document.getElementById('restart');
 const winner = document.getElementById('winner');
 const choiceDiv = document.querySelector('.ships');
+const randomForPlayer = document.querySelector('.rng');
 
 // Game arrays
 const p1Divs = []; // player board grid
@@ -36,18 +37,43 @@ playBtn.addEventListener('click', () => {
   displayTurn();
 });
 
+randomForPlayer.addEventListener('click', () => {
+  p1container.innerHTML = '';
+  player.board.allShips.length = 0;
+  p1Divs.length = 0;
+  shipsCopy.length = 0;
+  shipsCopy.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
+  randomSpawn(player);
+  displayBoards(p1container, p1Divs, player);
+});
+
 // Spawning ships in random coords
-const randomSpawn = () => {
-  for (let i = 0; i < ships.length; i++) {
-    let x, y;
-    const randomCoords = () => {
-      x = Math.floor(Math.random() * 10);
-      y = Math.floor(Math.random() * 10);
-    };
-    computer.board.rotate();
-    randomCoords();
-    while (!computer.board.setShip(x, y, ships[i])) {
+const randomSpawn = (target) => {
+  if (target === computer) {
+    for (let i = 0; i < ships.length; i++) {
+      let x, y;
+      const randomCoords = () => {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+      };
+      target.board.rotate();
       randomCoords();
+      while (!target.board.setShip(x, y, ships[i])) {
+        randomCoords();
+      }
+    }
+  } else {
+    for (let i = 0; i < shipsCopy.length; i++) {
+      let x, y;
+      const randomCoords = () => {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+      };
+      target.board.rotate();
+      randomCoords();
+      while (!target.board.setShip(x, y, shipsCopy[i])) {
+        randomCoords();
+      }
     }
   }
 };
@@ -217,7 +243,7 @@ restartBtn.addEventListener('click', () => {
   heroDiv.style.pointerEvents = 'auto';
   endPopup.style.display = 'none';
   ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
-  randomSpawn();
+  randomSpawn(computer);
   displayBoards(p1container, p1Divs, player);
   choiceDiv.style.display = 'flex';
 });
@@ -225,4 +251,4 @@ restartBtn.addEventListener('click', () => {
 // Displaying player board, ships choice, spawning computer ships by default
 displayBoards(p1container, p1Divs, player);
 displayShipsChoice();
-randomSpawn();
+randomSpawn(computer);
