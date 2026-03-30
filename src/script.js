@@ -7,6 +7,7 @@ const turnDisplay = document.querySelector('.turn');
 const endPopup = document.querySelector('.endPopup');
 const heroDiv = document.querySelector('.hero');
 const restartBtn = document.getElementById('restart');
+const winner = document.getElementById('winner');
 const p1Divs = [];
 const p2Divs = [];
 const ships = [];
@@ -15,7 +16,6 @@ let computer = new Player('computer');
 let turn = player;
 
 // all standart ships
-const abc = new Ship(2);
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
 const randomSpawn = () => {
   for (let i = 0; i < ships.length; i++) {
@@ -125,9 +125,13 @@ const displayTurn = () => {
 const gameEnd = () => {
   if (computer.board.isGameEnded()) {
     heroDiv.style.pointerEvents = 'none';
+    winner.textContent = '';
+    winner.textContent = 'PLAYER WIN';
     endPopup.style.display = 'flex';
   } else if (player.board.isGameEnded()) {
     heroDiv.style.pointerEvents = 'none';
+    winner.textContent = '';
+    winner.textContent = 'COMPUTER WIN';
     endPopup.style.display = 'flex';
   }
 };
@@ -146,6 +150,9 @@ restartBtn.addEventListener('click', () => {
   randomSpawn();
   displayBoards(p1container, p1Divs, player);
   displayBoards(p2container, p2Divs, computer);
+});
+document.body.addEventListener('click', (e) => {
+  console.log(e);
 });
 displayTurn();
 displayBoards(p1container, p1Divs, player);
