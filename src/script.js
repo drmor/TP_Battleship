@@ -37,6 +37,7 @@ playBtn.addEventListener('click', () => {
   displayTurn();
 });
 
+// event for random button for player that refreshes all data every interaction
 randomForPlayer.addEventListener('click', () => {
   p1container.innerHTML = '';
   player.board.allShips.length = 0;
@@ -45,6 +46,7 @@ randomForPlayer.addEventListener('click', () => {
   shipsCopy.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
   randomSpawn(player);
   displayBoards(p1container, p1Divs, player);
+  playBtn.style.display = 'flex';
 });
 
 // Spawning ships in random coords
