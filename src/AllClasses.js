@@ -127,15 +127,15 @@ class Player {
     let count = 0;
     const randomX = Math.floor(Math.random() * this.board.height);
     const randomY = Math.floor(Math.random() * this.board.width);
-    for (let i = 0; i < target.board.allAttacks.length; i++) {
-      if (target.board.allAttacks[i][0] == randomX && target.board.allAttacks[i][1] == randomY) {
+    for (let i = 0; i < target.allAttacks.length; i++) {
+      if (target.allAttacks[i][0] == randomX && target.allAttacks[i][1] == randomY) {
         count++;
       }
     }
     if (count > 0) {
       this.randomMove(target);
     } else {
-      target.board.receiveAttack(randomX, randomY);
+      target.receiveAttack(randomX, randomY);
     }
   }
 }

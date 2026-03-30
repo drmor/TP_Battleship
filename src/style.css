@@ -8,10 +8,12 @@
 }
 body {
   margin: 0;
-  display: grid;
-  grid-template-rows: 20% 10% 70%;
   background-image: url(./additional/BattleShipBG.jpg);
   background-size: cover;
+}
+.hero {
+  display: grid;
+  grid-template-rows: 20% 10% 70%;
   height: 100vh;
 }
 .header {
