@@ -1,9 +1,1 @@
-# Webpack-Template
-## Setup
----
-- npm install
-- npm start
-
-## Deploy
----
-- npm run deploy
+did this in 21 hours in total
