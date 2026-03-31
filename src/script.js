@@ -13,6 +13,8 @@ const winner = document.getElementById('winner');
 const choiceDiv = document.querySelector('.ships');
 const randomForPlayer = document.querySelector('.rng');
 const rotateBtn = document.querySelector('.rotate');
+const cheatBtn = document.querySelector('.cheat');
+const clearBtn = document.querySelector('.clear');
 
 // Game arrays
 const p1Divs = []; // player board grid
@@ -25,7 +27,8 @@ let player = new Player('p1');
 let computer = new Player('computer');
 let turn = player;
 let draggedShip = null;
-let isRotateOn = false;
+let isRotateOn = false; // false = horizontal, true = vertical
+let visibilityIsOn = false;
 
 // Initializing all ships
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
@@ -39,6 +42,17 @@ playBtn.addEventListener('click', () => {
   displayTurn();
 });
 
+cheatBtn.addEventListener('click', () => {
+  visibilityIsOn = !visibilityIsOn;
+  displayShips(computer, p2Divs);
+});
+clearBtn.addEventListener('click', () => {
+  resetBoard();
+  player.board.allShips.length = 0;
+  displayBoards(p1container, p1Divs, player);
+  console.log(player);
+});
+
 // event for random button for player that refreshes all data every interaction
 randomForPlayer.addEventListener('click', () => {
   resetBoard();
@@ -47,6 +61,11 @@ randomForPlayer.addEventListener('click', () => {
   displayBoards(p1container, p1Divs, player);
   if (player.board.allShips.length === 5) {
     playBtn.style.display = 'flex';
+  }
+  if (isRotateOn) {
+    player.board.direction = true;
+  } else {
+    player.board.direction = false;
   }
 });
 
@@ -66,9 +85,10 @@ const randomSpawn = (target, arr) => {
   }
 };
 
+//
 rotateBtn.addEventListener('click', () => {
   const shipDiv = document.querySelectorAll('.ship');
-  isRotateOn = isRotateOn === false ? true : false;
+  isRotateOn = !isRotateOn;
   player.board.rotate();
   if (isRotateOn) {
     choiceDiv.style.flexDirection = 'row';
@@ -163,6 +183,10 @@ const displayShips = (target, arr) => {
         for (let j = 0; j < arr.length; j++) {
           if (arr[j].dataset.x == x && arr[j].dataset.y == y) {
             arr[j].style.backgroundColor = 'darkblue';
+            if (target === computer) {
+              arr[j].style.backgroundColor = 'white';
+              if (visibilityIsOn) arr[j].style.backgroundColor = 'darkblue';
+            }
           }
         }
       }
