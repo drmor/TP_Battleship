@@ -6,6 +6,9 @@
   font-family: WorkSans;
   src: url(../src/additional/WorkSans-VariableFont_wght.ttf);
 }
+html {
+  font-family: Raleway;
+}
 body {
   margin: 0;
   background-image: url(./additional/BattleShipBG.jpg);
@@ -25,17 +28,11 @@ body {
   font-family: WorkSans;
   letter-spacing: 10px;
 }
-.playBtn {
-  display: none;
-  position: absolute;
-  top: 80%;
-  left: 65%;
-  font-size: 2.5rem;
-  color: green;
-  background-color: rgb(212, 212, 212, 0.7);
-  border: 3px solid white;
-  border-radius: 10px;
-  padding: 1rem;
+.logo {
+  width: 100px;
+  margin-right: 1rem;
+}
+button {
   cursor: pointer;
 }
 .info {
@@ -59,34 +56,41 @@ body {
   pointer-events: none;
 }
 .block {
+  box-sizing: border-box;
   display: flex;
   width: 50px;
   height: 50px;
-  border: 1px solid black;
-  background-color: white;
+  border: 1px solid gray;
+  background-color: #e8e8e8;
   cursor: pointer;
   font-size: 2.5rem;
   justify-content: center;
   align-items: center;
 }
 .block:hover {
-  background-color: lightgray;
-  transition: 0.1s;
+  border: 2px solid gray;
+}
+.hit {
+  border: 1px solid #ff4545;
+  color: #ff4545;
 }
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   place-items: center;
+  margin-left: 5rem;
+  margin-right: 5rem;
 }
 .endPopup {
   position: absolute;
-  width: 500px;
+  width: 400px;
   height: 200px;
-  background-color: white;
+  background-color: #faf9f6;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: 3px solid gray;
+  border-radius: 10px;
   display: none;
   flex-direction: column;
   justify-content: space-around;
@@ -95,26 +99,158 @@ body {
 .endPopup > h1 {
   margin: 0;
 }
+.endPopup > p {
+  font-size: 1.2rem;
+}
+.endPopup > button {
+  height: 30px;
+  width: 100px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-weight: 600;
+}
 .ships {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background-color: white;
-  top: 65%;
-  left: 70%;
-  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  width: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  border-right: 3px solid lightgray;
 }
 .ship {
   margin-left: 1rem;
   display: flex;
+  flex-direction: row;
 }
 .shipPart {
+  box-sizing: border-box;
   width: 50px;
   height: 50px;
-  background-color: blue;
+  background-color: #575757;
+  border: 2px solid gray;
+  border-radius: 5px;
+}
+.blur {
+  position: absolute;
+  backdrop-filter: blur(5px);
+  height: 100vh;
+  width: 100%;
+  top: 0;
+}
+.howTo {
+  position: absolute;
+  box-sizing: border-box;
+  background-color: #e8e8e8;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 82vh;
+  width: 60%;
+  border-radius: 5px;
+  padding: 2rem;
+}
+.welcome {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.rule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+.rule > p {
+  font-size: 1.1rem;
+}
+.howTo > h1 {
+  margin-bottom: 0;
+}
+.infoPng {
+  height: 70px;
+}
+.howTo > p {
+  font-size: 1.2rem;
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+.close {
+  position: absolute;
+  left: 94.5%;
+  top: 2%;
+  height: 40px;
+  width: 40px;
+  font-size: larger;
+  font-family: RaleWay;
+  font-weight: bold;
+  background: lightpink;
+  border: none;
+  border-radius: 5px;
+  color: red;
+}
+.controlPanel {
+  background-color: #e8e8e8;
+  position: absolute;
+  display: flex;
+  grid-template-columns: 1fr 1fr;
+  top: 65%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 420px;
+  padding: 1rem;
   border: 3px solid gray;
   border-radius: 10px;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.buttons > button {
+  height: 50px;
+  width: 100px;
+  margin-left: 1rem;
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-family: RaleWay;
+  font-weight: 700;
+}
+.rng:hover,
+.rotate:hover,
+.clear:hover {
+  background-color: lightgray;
+  transition: 0.3s;
+}
+.green {
+  background-color: #8fff9e;
+}
+.green:hover {
+  height: 53px;
+  width: 103px;
+  transition: 0.3s;
+}
+.red {
+  background-color: #ff4545;
+}
+.cheat {
+  position: absolute;
+  top: 90%;
+  left: 90%;
+  display: none;
+  border: 2px dashed gray;
+  border-radius: 10px;
+  width: 100px;
+  height: 30px;
+  color: gray;
+  background: none;
 }

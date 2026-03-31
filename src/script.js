@@ -15,6 +15,10 @@ const randomForPlayer = document.querySelector('.rng');
 const rotateBtn = document.querySelector('.rotate');
 const cheatBtn = document.querySelector('.cheat');
 const clearBtn = document.querySelector('.clear');
+const controlPanel = document.querySelector('.controlPanel');
+const closeBtn = document.querySelector('.close');
+const infoDiv = document.querySelector('.howTo');
+const blurDiv = document.querySelector('.blur');
 
 // Game arrays
 const p1Divs = []; // player board grid
@@ -23,8 +27,8 @@ const ships = []; // computer ships
 const shipsCopy = []; // player ships
 
 // Game objects
-let player = new Player('p1');
-let computer = new Player('computer');
+let player = new Player('PLAYER');
+let computer = new Player('COMPUTER');
 let turn = player;
 let draggedShip = null;
 let isRotateOn = false; // false = horizontal, true = vertical
@@ -34,23 +38,44 @@ let visibilityIsOn = false;
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
 shipsCopy.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
 
-// Play button for starting game
+// DOM buttons
 playBtn.addEventListener('click', () => {
-  playBtn.style.display = 'none';
-  choiceDiv.style.display = 'none';
+  controlPanel.style.display = 'none';
+  cheatBtn.style.display = 'block';
+  turnDisplay.textContent = '';
   displayBoards(p2container, p2Divs, computer);
   displayTurn();
 });
-
+closeBtn.addEventListener('click', () => {
+  infoDiv.style.display = 'none';
+  blurDiv.style.display = 'none';
+});
 cheatBtn.addEventListener('click', () => {
   visibilityIsOn = !visibilityIsOn;
   displayShips(computer, p2Divs);
+  displayShots(computer, p2Divs);
 });
 clearBtn.addEventListener('click', () => {
   resetBoard();
   player.board.allShips.length = 0;
   displayBoards(p1container, p1Divs, player);
   console.log(player);
+});
+rotateBtn.addEventListener('click', () => {
+  const shipDiv = document.querySelectorAll('.ship');
+  isRotateOn = !isRotateOn;
+  player.board.rotate();
+  if (isRotateOn) {
+    choiceDiv.style.display = 'grid';
+    shipDiv.forEach((ship) => {
+      ship.style.flexDirection = 'column';
+    });
+  } else {
+    choiceDiv.style.display = 'flex';
+    shipDiv.forEach((ship) => {
+      ship.style.flexDirection = 'row';
+    });
+  }
 });
 
 // event for random button for player that refreshes all data every interaction
@@ -60,7 +85,9 @@ randomForPlayer.addEventListener('click', () => {
   randomSpawn(player, shipsCopy);
   displayBoards(p1container, p1Divs, player);
   if (player.board.allShips.length === 5) {
-    playBtn.style.display = 'flex';
+    playBtn.classList.remove('disabled');
+    playBtn.classList.remove('red');
+    playBtn.classList.add('green');
   }
   if (isRotateOn) {
     player.board.direction = true;
@@ -84,24 +111,6 @@ const randomSpawn = (target, arr) => {
     }
   }
 };
-
-//
-rotateBtn.addEventListener('click', () => {
-  const shipDiv = document.querySelectorAll('.ship');
-  isRotateOn = !isRotateOn;
-  player.board.rotate();
-  if (isRotateOn) {
-    choiceDiv.style.flexDirection = 'row';
-    shipDiv.forEach((ship) => {
-      ship.style.flexDirection = 'column';
-    });
-  } else {
-    choiceDiv.style.flexDirection = 'column';
-    shipDiv.forEach((ship) => {
-      ship.style.flexDirection = 'row';
-    });
-  }
-});
 
 // Helper
 const resetBoard = () => {
@@ -146,6 +155,11 @@ const displayBoards = (container, arr, target) => {
       arr.push(cellDiv);
     }
   }
+  if (player.board.allShips.length !== 5) {
+    playBtn.classList.add('disabled');
+    playBtn.classList.remove('green');
+    playBtn.classList.add('red');
+  }
   if (target === player) addDropListeners(p1Divs);
   displayShips(target, arr);
   if (target === computer) attack(target, arr);
@@ -168,7 +182,9 @@ const addDropListeners = (arr) => {
         p1Divs[d].style.backgroundColor = '';
       }
       if (player.board.allShips.length === 5) {
-        playBtn.style.display = 'flex';
+        playBtn.classList.remove('disabled');
+        playBtn.classList.remove('red');
+        playBtn.classList.add('green');
       }
       displayShips(player, p1Divs);
     });
@@ -182,10 +198,12 @@ const displayShips = (target, arr) => {
       for (let y = target.board.allShips[i].startY; y <= target.board.allShips[i].endY; y++) {
         for (let j = 0; j < arr.length; j++) {
           if (arr[j].dataset.x == x && arr[j].dataset.y == y) {
-            arr[j].style.backgroundColor = 'darkblue';
+            arr[j].style.backgroundColor = '#575757';
             if (target === computer) {
-              arr[j].style.backgroundColor = 'white';
-              if (visibilityIsOn) arr[j].style.backgroundColor = 'darkblue';
+              arr[j].style.backgroundColor = '#e8e8e8';
+              if (visibilityIsOn) {
+                arr[j].style.backgroundColor = '#c4c4c4';
+              }
             }
           }
         }
@@ -200,7 +218,8 @@ const displayShots = (target, arr) => {
     for (let j = 0; j < arr.length; j++) {
       if (arr[j].dataset.x == target.board.allAttacks[i][0] && arr[j].dataset.y == target.board.allAttacks[i][1]) {
         if (target.board.isShipExist(arr[j].dataset.x, arr[j].dataset.y)) {
-          arr[j].style.backgroundColor = 'red';
+          arr[j].classList.add('hit');
+          arr[j].innerHTML = 'X';
         } else arr[j].innerHTML = 'X';
       }
     }
@@ -217,7 +236,7 @@ const attack = (target, arr) => {
       resetDisplayTurn();
       displayTurn();
       p2container.classList.toggle('disabled');
-      setTimeout(computerAttack, 1);
+      setTimeout(computerAttack, 1000);
       displayShots(target, arr);
       gameEnd();
     });
@@ -248,7 +267,7 @@ const changePlayersTurn = () => {
 
 // Geting whose turn and displaying it
 let i = 0;
-const getTurnText = () => `${turn.player} turn`;
+const getTurnText = () => `${turn.player} TURN`;
 const displayTurn = () => {
   let text = getTurnText();
   if (i < text.length) {
@@ -275,8 +294,8 @@ const gameEnd = () => {
 
 // Restart game button
 restartBtn.addEventListener('click', () => {
-  player = new Player('p1');
-  computer = new Player('computer');
+  player = new Player('PLAYER');
+  computer = new Player('COMPUTER');
   resetBoard();
   p2Divs.length = 0;
   ships.length = 0;
@@ -287,7 +306,9 @@ restartBtn.addEventListener('click', () => {
   ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
   randomSpawn(computer, ships);
   displayBoards(p1container, p1Divs, player);
-  choiceDiv.style.display = 'flex';
+  controlPanel.style.display = 'flex';
+  cheatBtn.style.display = 'none';
+  turnDisplay.textContent = '';
 });
 
 // Displaying player board, ships choice, spawning computer ships by default
