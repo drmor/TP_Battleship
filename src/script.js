@@ -12,6 +12,7 @@ const restartBtn = document.getElementById('restart');
 const winner = document.getElementById('winner');
 const choiceDiv = document.querySelector('.ships');
 const randomForPlayer = document.querySelector('.rng');
+const rotateBtn = document.querySelector('.rotate');
 
 // Game arrays
 const p1Divs = []; // player board grid
@@ -24,6 +25,7 @@ let player = new Player('p1');
 let computer = new Player('computer');
 let turn = player;
 let draggedShip = null;
+let isRotateOn = false;
 
 // Initializing all ships
 ships.push(new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2));
@@ -63,6 +65,23 @@ const randomSpawn = (target, arr) => {
     }
   }
 };
+
+rotateBtn.addEventListener('click', () => {
+  const shipDiv = document.querySelectorAll('.ship');
+  isRotateOn = isRotateOn === false ? true : false;
+  player.board.rotate();
+  if (isRotateOn) {
+    choiceDiv.style.flexDirection = 'row';
+    shipDiv.forEach((ship) => {
+      ship.style.flexDirection = 'column';
+    });
+  } else {
+    choiceDiv.style.flexDirection = 'column';
+    shipDiv.forEach((ship) => {
+      ship.style.flexDirection = 'row';
+    });
+  }
+});
 
 // Helper
 const resetBoard = () => {
